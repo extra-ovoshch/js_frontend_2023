@@ -1,7 +1,8 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 
-class ToDoTaskAdd extends React.Component {
+class ToDoTaskAddInner extends React.Component {
 	constructor(props){
 		super(props);
 		
@@ -33,8 +34,8 @@ class ToDoTaskAdd extends React.Component {
 	}
 
 	onAddFormSubmit(e){
-		e.preventDefault();
 		console.log(this.props.onTaskAdd);
+		e.preventDefault();
 		
 		fetch('tasks',{
 			method: 'POST',
@@ -49,6 +50,8 @@ class ToDoTaskAdd extends React.Component {
 			return res.json();
 		}).then((data)=>{
 			this.props.onTaskAdd(data);
+			const navigate = useNavigate();
+			navigate('/');
 		});
 	}
 
@@ -61,6 +64,12 @@ class ToDoTaskAdd extends React.Component {
 			</form>
 			)
 	}
+}
+
+const ToDoTaskAdd = (props) =>{
+	return (
+		<ToDoTaskAddInner {...props} history={useNavigate()} />
+	)
 }
 
 export default ToDoTaskAdd;
